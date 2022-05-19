@@ -8,8 +8,8 @@ import (
 
 func main() {
 	r := gin.Default()
-	r.GET("/", handler.Hello)
+	r.GET("/", handler.GetAllUser)
 	r.GET("/query", handler.Query)
-	r.GET("/:id", handler.Path)
+	r.GET("/:id", handler.GetDetailUser)
 	r.Run()
 }

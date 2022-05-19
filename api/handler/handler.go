@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Hello(c *gin.Context) {
+func GetAllUser(c *gin.Context) {
 
 	// Get the Database Connection
 	db := config.GetDB()
@@ -53,7 +53,7 @@ func Query(c *gin.Context) {
 	})
 }
 
-func Path(c *gin.Context) {
+func GetDetailUser(c *gin.Context) {
 	id := c.Param("id")
 
 	// Get the Database Connection
