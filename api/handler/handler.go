@@ -54,8 +54,20 @@ func Query(c *gin.Context) {
 }
 
 func Path(c *gin.Context) {
-	message := c.Param("message")
+	id := c.Param("id")
+
+	// Get the Database Connection
+	db := config.GetDB()
+
+	// Execute query to get data
+	var user model.User
+	err := db.QueryRow("SELECT * FROM user WHERE id=?", id).Scan(&user.Id, &user.FirstName, &user.LastName, &user.Email, &user.Password)
+	if err != nil {
+		// error handler
+		panic(err.Error())
+	}
+
 	c.JSON(200, gin.H{
-		"message": message,
+		"data": user,
 	})
 }

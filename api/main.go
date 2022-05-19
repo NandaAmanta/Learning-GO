@@ -10,6 +10,6 @@ func main() {
 	r := gin.Default()
 	r.GET("/", handler.Hello)
 	r.GET("/query", handler.Query)
-	r.GET("/param/:message", handler.Path)
+	r.GET("/:id", handler.Path)
 	r.Run()
 }
