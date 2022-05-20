@@ -46,7 +46,7 @@ func GetAllUser(c *gin.Context) {
 	})
 }
 
-func Query(c *gin.Context) {
+func GetUsersByEmail(c *gin.Context) {
 	email := c.Query("email")
 
 	// Get the Database Connection

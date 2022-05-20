@@ -9,7 +9,7 @@ import (
 func main() {
 	r := gin.Default()
 	r.GET("/", handler.GetAllUser)
-	r.GET("/query", handler.Query)
+	r.GET("/query", handler.GetUsersByEmail)
 	r.GET("/:id", handler.GetDetailUser)
 	r.Run()
 }
