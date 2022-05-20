@@ -47,9 +47,38 @@ func GetAllUser(c *gin.Context) {
 }
 
 func Query(c *gin.Context) {
-	message := c.Query("message")
+	email := c.Query("email")
+
+	// Get the Database Connection
+	db := config.GetDB()
+
+	// Execute query to get data
+	results, err := db.Query("SELECT * FROM user WHERE email=?", email)
+	if err != nil {
+		// error handler
+		panic(err.Error())
+	}
+
+	// convert data rows to list Object
+	users := []*model.User{}
+	for results.Next() {
+		user := new(model.User)
+		err2 := results.Scan(&user.Id, &user.FirstName, &user.LastName, &user.Email, &user.Password)
+		if err2 != nil {
+			// error handler
+			c.JSON(500, gin.H{
+				"ok":         false,
+				"statusCode": "INTERNAL_SERVER_ERROR",
+				"data":       nil,
+			})
+			panic(err2.Error())
+
+		} else {
+			users = append(users, user)
+		}
+	}
 	c.JSON(200, gin.H{
-		"message": message,
+		"data": users,
 	})
 }
 
