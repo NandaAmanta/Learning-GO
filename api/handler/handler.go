@@ -100,3 +100,33 @@ func GetDetailUser(c *gin.Context) {
 		"data": user,
 	})
 }
+
+func AddUser(c *gin.Context) {
+	var body model.User
+	err := c.BindJSON(&body)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"ok":         false,
+			"statusCode": "INTERNAL_SERVER_ERROR",
+			"data":       nil,
+		})
+		panic(err.Error())
+	}
+
+	// Get the Database Connection
+	db := config.GetDB()
+	// defer db.Close()
+
+	insert, err := db.Query("INSERT INTO user(firstName,lastName,email,password) VALUES(?,?,?,?)", &body.FirstName, &body.LastName, &body.Email, &body.Password)
+	if err != nil {
+		// error handler
+		panic(err.Error())
+	}
+
+	defer insert.Close()
+	c.JSON(200, gin.H{
+		"ok":         true,
+		"statusCode": "SUCCESS_ADD_DATA",
+		"data":       nil,
+	})
+}
